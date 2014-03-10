@@ -1,0 +1,7 @@
+<li class="nav-header">
+    友情链接
+</li>
+
+{% for link in links %}
+<li><a href="{{ link.value }}">{{ link.name }}</a></li>
+{% end %}

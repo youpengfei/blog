@@ -1,42 +1,28 @@
 {% extends "base.html" %}
-{% block content_title %}{% endblock %}
-{% block content %}        
-
-{% if articles %}
-{% for article in articles_page.object_list %}        
-
- {% if loop.first and not articles_page.has_previous() %}
-
-    <div class='article'>
-        <div class="content-title">
-            <a href="{{ SITEURL }}/{{ article.url }}"><h1>{{ article.title }}</h1></a>
-            {% include "metadata.html" %} 
-        </div>
-        
-        <div>{{ article.content }}</div>
-        <hr />
+{% block title %} worldCode {% end %}
+{% block content %}
+{% if items %}
+<div class='article'>
+    <div class="content-title">
+        <a href="/detail/{{ items[0].id }}"><h1>{{ items[0].title }}</h1></a>
+       <div class="well small">
+        {{ items[0].published }}
     </div>
-		
-    {% if loop.length == 1 %}
-        {% include 'pagination.html' %}
-    {% endif %}
+    </div>
+    <div>{% raw items[0].content %}</div>
+    <hr/>
+</div>
+{% for article in items[1:] %}
+<div class="article">
+    <a href="/detail/{{  article['id'] }}"><h2>{{ article.title }}</h2></a>
+    <div class="well small">
+        {{ article.published }}
+    </div>
+    <div class="summary">{{ article["brief"]}} <a class="btn btn-info xsmall" href="/detail/{{ article['id'] }}">详情</a></div>
+</div>
+{% end %}
+{% module pagination()%}
+{% end %}
+{% end %}
 
- {% else %}
-
-    <div class='article'>
-        <a href="{{ SITEURL }}/{{ article.url }}"><h2>{{ article.title }}</h2></a>
-        <div class= "well small"> {% include "metadata.html" %} </div>
-        <div class="summary">{{ article.summary }} <a class="btn btn-info xsmall" href="{{ SITEURL }}/{{ article.url }}">read more</a></div>
-    </div>	
-				
-    {% if loop.last and (articles_page.has_previous() or not articles_page.has_previous() and loop.length > 1) %}
-        {% include 'pagination.html' %}
-    {% endif %}
-
-{% endif %}
-
-{% endfor %}
-{% endif %}
-
-{% endblock content %}
 

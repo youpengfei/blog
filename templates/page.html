@@ -8,11 +8,9 @@
             <a href="{{ SITEURL }}/{{ page.url }}" class="btn btn-info xsmall">{{ page.lang or DEFAULT_LANG }}</a>
             {% for translation in page.translations %}
                 <a href="{{ SITEURL }}/{{ translation.url }}" class="btn btn-info xsmall">{{ translation.lang }}</a>&nbsp;
-            {% endfor %}
+            {% end %}
         {% endif %}
     </h2>
-    {% if PDF_PROCESSOR %}<a href="{{ SITEURL }}/pdf/{{ page.slug }}.pdf">get
-    the pdf</a>{% endif %}
     {{ page.content }}
 </section>
-{% endblock %}
+{% end %}

@@ -1,0 +1,21 @@
+<div class="pagination">
+    <ul>
+        {%if currentPage > 1 %}
+        <li class="prev"><a href="/?pageNum={{ currentPage-1 }}">&larr; 上页</a></li>
+        {% else %}
+        <li class="prev disabled"><a href="javascript:void(0)">&larr; 上页</a></li>
+        {% end %}
+        {% for page in xrange(1,pages+1)%}
+            {%if currentPage==page %}
+                <li class="active"><a href="">{{ page }}</a></li>
+            {% else %}
+                <li class=""><a href="/?pageNum={{ page }}">{{ page }}</a></li>
+            {% end %}
+        {% end %}
+        {%if currentPage < pages %}
+        <li class="next"><a href="/?pageNum={{currentPage+1}}">下页 </a></li>
+        {% else %}
+            <li class="next disabled"><a href="javascript:void(0)">下页 &rarr;</a></li>
+        {% end %}
+    </ul>
+</div>

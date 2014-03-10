@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content%}
+
+<h1>Archives</h1>
+
+<table class="table">
+    <tbody>
+    {% for article in entries %}
+        <tr>
+        <td>{{ article.published }}</td>
+        <td><a href='details/{{ article.id }}'>{{ article.title }}</a></td>
+        </tr>
+    {% end %}
+    </tbody>
+</table>
+{% end %}

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # Copyright 2009 Facebook
 #
@@ -23,15 +23,15 @@ import tornado.options
 import tornado.web
 
 from tornado.options import define, options
-from action.aboutme import AboutMeHandler
-from action.archive import ArchiveHandler
-from action.auth import AuthLoginHandler, AuthLogoutHandler
-from action.compose import ComposeHandler
-from action.detail import DetailHandler
-from action.entry import EntryHandler
-from action.feed import FeedHandler
-from action.home import HomeHandler
-from module.ItemModule import ItemModule
+from handler.aboutme import AboutMeHandler
+from handler.auth import AuthLoginHandler, AuthLogoutHandler
+from handler.compose import ComposeHandler
+from handler.detail import DetailHandler
+from handler.entry import EntryHandler
+from handler.feed import FeedHandler
+from handler.home import HomeHandler
+from handler.archive import ArchiveHandler
+from modules import TagModule, LinkModule, CategoryModule, PaginationModule
 
 define("port", default=8999, help="run on the given port", type=int)
 define("mysql_host", default="127.0.0.1:3306", help="blog database host")
@@ -51,16 +51,21 @@ class Application(tornado.web.Application):
             (r"/auth/logout", AuthLogoutHandler),
             (r"/detail/([0-9])+", DetailHandler),
             (r"/aboutMe", AboutMeHandler),
+            (r"/archives",ArchiveHandler),
         ]
         settings = dict(
-            blog_title=u"Tornado Blog",
+            blog_title=u"worldCode",
+            author="youpengfei",
+            lang="zh",
+            default_url="worldcode.cn",
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
             xsrf_cookies=True,
             cookie_secret="__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__",
             login_url="/auth/login",
             debug=True,
-            ui_modules={"item": ItemModule}
+            ui_modules={"tags": TagModule, "links": LinkModule, "categories": CategoryModule,
+                        'pagination': PaginationModule},
         )
 
         tornado.web.Application.__init__(self, handlers, **settings)
@@ -80,3 +85,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
