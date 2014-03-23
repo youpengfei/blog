@@ -1,21 +1,4 @@
-# -*- coding: utf-8 -*-
-#
-# Copyright 2009 Facebook
-#
-# Licensed under the Apache License, Version 2.0 (the "License"); you may
-# not use this file except in compliance with the License. You may obtain
-# a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-# License for the specific language governing permissions and limitations
-# under the License.
-
 import os.path
-import torndb
 import tornado.auth
 import tornado.httpserver
 import tornado.ioloop
@@ -28,10 +11,12 @@ from handler.auth import AuthLoginHandler, AuthLogoutHandler
 from handler.compose import ComposeHandler
 from handler.detail import DetailHandler
 from handler.entry import EntryHandler
-from handler.feed import FeedHandler
+from handler.fileupload import FileUpload
 from handler.home import HomeHandler
 from handler.archive import ArchiveHandler
-from modules import TagModule, LinkModule, CategoryModule, PaginationModule
+from handler.preview import PreviewHandler
+from modules import PaginationModule
+from pymongo import MongoClient
 
 define("port", default=8999, help="run on the given port", type=int)
 define("mysql_host", default="127.0.0.1:3306", help="blog database host")
@@ -44,14 +29,15 @@ class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
             (r"/", HomeHandler),
-            (r"/feed", FeedHandler),
             (r"/entry/([^/]+)", EntryHandler),
             (r"/compose", ComposeHandler),
             (r"/auth/login", AuthLoginHandler),
             (r"/auth/logout", AuthLogoutHandler),
-            (r"/detail/([0-9])+", DetailHandler),
+            (r"/detail/(.+)", DetailHandler),
             (r"/aboutMe", AboutMeHandler),
-            (r"/archives",ArchiveHandler),
+            (r"/archives", ArchiveHandler),
+            (r"/preview", PreviewHandler),
+            (r"/file", FileUpload),
         ]
         settings = dict(
             blog_title=u"worldCode",
@@ -64,16 +50,16 @@ class Application(tornado.web.Application):
             cookie_secret="__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__",
             login_url="/auth/login",
             debug=True,
-            ui_modules={"tags": TagModule, "links": LinkModule, "categories": CategoryModule,
-                        'pagination': PaginationModule},
+            ui_modules={'pagination': PaginationModule},
         )
 
         tornado.web.Application.__init__(self, handlers, **settings)
 
         # Have one global connection to the blog DB across all handlers
-        self.db = torndb.Connection(
-            host=options.mysql_host, database=options.mysql_database,
-            user=options.mysql_user, password=options.mysql_password)
+        # self.db = torndb.Connection(
+        #     host=options.mysql_host, database=options.mysql_database,
+        #     user=options.mysql_user, password=options.mysql_password)
+        self.mongo = MongoClient("192.168.1.101")
 
 
 def main():

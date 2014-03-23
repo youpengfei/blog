@@ -4,21 +4,21 @@
 {% if items %}
 <div class='article'>
     <div class="content-title">
-        <a href="/detail/{{ items[0].id }}"><h1>{{ items[0].title }}</h1></a>
+        <a href="/detail/{{ items[0]['_id'] }}"><h1>{{ items[0]['title'] }}</h1></a>
        <div class="well small">
-        {{ items[0].published }}
+          {{  items[0]["published"].strftime('%Y-%m-%d %H:%M:%S')}}
     </div>
     </div>
-    <div>{% raw items[0].content %}</div>
+    <div>{% raw items[0]['content'] %}</div>
     <hr/>
 </div>
 {% for article in items[1:] %}
 <div class="article">
-    <a href="/detail/{{  article['id'] }}"><h2>{{ article.title }}</h2></a>
+    <a href="/detail/{{  article['_id'] }}"><h2>{{ article['title'] }}</h2></a>
     <div class="well small">
-        {{ article.published }}
+        {{ article["published"].strftime('%Y-%m-%d %H:%M:%S') }}
     </div>
-    <div class="summary">{{ article["brief"]}} <a class="btn btn-info xsmall" href="/detail/{{ article['id'] }}">详情</a></div>
+    <div class="summary">{{ article["brief"]}} <a class="btn btn-info xsmall" href="/detail/{{ article['_id'] }}">详情</a></div>
 </div>
 {% end %}
 {% module pagination()%}

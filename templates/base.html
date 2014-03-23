@@ -3,10 +3,11 @@
 <head>
     <meta charset="utf-8">
     <title>{% block title %} {{ escape(handler.settings["blog_title"]) }}{% end %}</title>
+
+    {%block script %}{% end %}
     <meta name="description" content="">
     <meta name="author" content="{{ escape(handler.settings['author']) }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
     <script src="{{ static_url('html5.js') }}"></script>
@@ -18,10 +19,11 @@
     <link href="{{ static_url('bootstrap.min.responsive.css')}}" rel="stylesheet">
     <link href="{{ static_url('local.css')}}" rel="stylesheet">
     <link href="{{ static_url('pygments.css')}}" rel="stylesheet">
-     <script src="{{ static_url('headroom.min.js') }}"></script>
-</head>
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+ </head>
 
-<body>
+<body onload="prettyPrint()">
 
 <div class="navbar">
     <div class="navbar-inner">
@@ -63,6 +65,5 @@
     </div>
 </div>
 </body>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-collapse.js"></script>
+
 </html>
