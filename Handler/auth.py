@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 import tornado.web
 from handler.base import BaseHandler
+import tornado.auth
 
 __author__ = 'youpengfei'
+
+
 class AuthLoginHandler(BaseHandler, tornado.auth.GoogleMixin):
     @tornado.web.asynchronous
     def get(self):
@@ -14,21 +17,18 @@ class AuthLoginHandler(BaseHandler, tornado.auth.GoogleMixin):
     def _on_auth(self, user):
         if not user:
             raise tornado.web.HTTPError(500, "Google auth failed")
-        author = self.db.get("SELECT * FROM authors WHERE email = %s",
-                             user["email"])
+        author = self.mongo['blog'].author.find_one({"email": user["email"]})
         if not author:
             # Auto-create first author
-            any_author = self.db.get("SELECT * FROM authors LIMIT 1")
+            any_author = self.mongo["blog"].author.find_one()
             if not any_author:
-                author_id = self.db.execute(
-                    "INSERT INTO authors (email,name) VALUES (%s,%s)",
-                    user["email"], user["name"])
+                author_id = self.mongo['blog'].author.insert({"email": user["email"], "name": user["name"]})
             else:
                 self.redirect("/")
                 return
         else:
-            author_id = author["id"]
-        self.set_secure_cookie("blogdemo_user", str(author_id))
+            author_id = author["_id"]
+        self.set_secure_cookie("blogdemo_user", author["email"])
         self.redirect(self.get_argument("next", "/"))
 
 

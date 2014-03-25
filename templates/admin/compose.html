@@ -8,6 +8,12 @@
     <script src="{{ static_url('jquery.validate.min.js')}}"></script>
     <script src="{{ static_url('additional-methods.min.js')}}"></script>
     <link href="{{ static_url('edit/edit.css') }}" rel="stylesheet">
+    <script type="text/javascript" src="{{ static_url('upload/swfobject.js') }}">
+    </script>
+    <script type="text/javascript" src="{{ static_url('upload/jquery.uploadify.v2.1.4.js') }}">
+    </script>
+
+    <link href="{{ static_url('upload/uploadify.css') }}" rel="stylesheet">
     <script type="text/javascript" src="{{ static_url('edit/edit.js') }}">
     </script>
 </head>
@@ -18,6 +24,7 @@
         {% if entry is not None%}
         <div class="control-group">
             <label class="control-label" for="inputTitle">博客标题</label>
+
             <div class="controls">
                 <input id="inputTitle" type="text" name="title" width="98%" value="{{ entry['title'] }}"
                        placeholder="博客标题"/>
@@ -30,11 +37,13 @@
                 <input id="inputBrief" type="text" name="brief" value="{{ entry['brief'] }}" maxlength="1000px"/>
             </div>
         </div>
+        <div class="controls" style="padding:5px;">
+            <input type="button" value="上传图片" class="btn btn-primary"></div>
         <div class="control-group">
             <label class="control-label" for="inputContent">博客正文</label>
 
             <div class="controls">
-                <textarea id="inputContent" name="content" style="width:50%;height:400px;">
+                <textarea id="inputContent" name="content" style="width:80%;height:400px;">
                     {{ entry["markDown"] }}
                 </textarea>
             </div>
@@ -68,14 +77,19 @@
             <label class="control-label" for="inputBrief">博客摘要</label>
 
             <div class="controls">
-                <input id="inputBrief" type="text" name="brief"  placeholder="博客摘要" maxlength="1000px"/>
+                <input id="inputBrief" type="text" name="brief" placeholder="博客摘要" maxlength="1000px"/>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="inputContent">博客正文</label>
 
+
+            <div class="controls" style="padding:5px;">
+                <input type="file" name="reqFile" id="reqFile" />
+            </div>
+            <div id="dropbox"></div>
             <div class="controls">
-                <textarea id="inputContent" name="content" placeholder="博客正文" style="width:50%;height:400px;">
+                <textarea id="inputContent" name="content" placeholder="博客正文" style="width:80%;height:400px;">
                 </textarea>
             </div>
         </div>
@@ -88,7 +102,7 @@
 
             </div>
             <div class="controls" style="padding-top:5px;">
-                 <span class="label label-info">生活</span>
+                <span class="label label-info">生活</span>
                 <span class="label label-info">生活</span>
                 <span class="label label-info">生活</span>
                 <span class="label label-info">生活</span>

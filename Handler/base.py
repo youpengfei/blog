@@ -6,10 +6,11 @@ import tornado.web
 
 class BaseHandler(tornado.web.RequestHandler):
     @property
-    def db(self):
-        return self.application.db
+    def mongo(self):
+        return self.application.mongo
 
     def get_current_user(self):
-        user_id = self.get_secure_cookie("blogdemo_user")
-        if not user_id: return None
-        return self.db.get("SELECT * FROM authors WHERE id = %s", int(user_id))
+        email = self.get_secure_cookie("blogdemo_user")
+        if not email:
+            return None
+        return self.mongo['blog'].author.find({"email": email})

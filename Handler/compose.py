@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+from bson import ObjectId
+from datetime import datetime
 import markdown
-import re
 import tornado.web
-import unicodedata
+
 
 from handler.base import BaseHandler
 
@@ -15,34 +16,36 @@ class ComposeHandler(BaseHandler):
         id = self.get_argument("id", None)
         entry = None
         if id:
-            entry = self.db.get("SELECT * FROM entries WHERE id = %s", int(id))
-        self.render("compose.html", entry=entry)
+            entry = self.mongo["blog"].post.find_one({"_id": ObjectId(id)})
+        self.render("admin/compose.html", entry=entry)
 
     @tornado.web.authenticated
     def post(self):
         id = self.get_argument("id", None)
+        entry = None
         title = self.get_argument("title")
-        text = self.get_argument("markdown")
-        html = markdown.markdown(text)
-        if id:
-            entry = self.db.get("SELECT * FROM entries WHERE id = %s", int(id))
-            if not entry: raise tornado.web.HTTPError(404)
-            slug = entry.slug
-            self.db.execute(
-                "UPDATE entries SET title = %s, markdown = %s, html = %s "
-                "WHERE id = %s", title, text, html, int(id))
+        content = self.get_argument("content")
+        tags = self.get_argument("tags")
+        category_id = self.get_argument("categoryId")
+        brief = self.get_argument("brief", "暂无介绍")
+        user = self.get_current_user()
+
+        html = markdown.markdown(content, extensions=(['codehilite(css_class=highlight)', 'extra', 'fenced_code', 'tables', 'sane_lists']))
+        post = {
+            "title": title,
+            "content": html,
+            "tags": tags.split(","),
+            "category_id": [1, 2],
+            "author": user["name"],
+            "brief": brief,
+            "markDown": content,
+            "published": datetime.now()
+        }
+        one = self.mongo["blog"].post.find_one({"_id": ObjectId(id)})
+        if one is not None:
+            self.mongo["blog"].post.update({"_id": ObjectId(id)}, {"$set": post})
+            self.redirect("/")
         else:
-            slug = unicodedata.normalize("NFKD", title).encode(
-                "ascii", "ignore")
-            slug = re.sub(r"[^\w]+", " ", slug)
-            slug = "-".join(slug.lower().strip().split())
-            if not slug: slug = "entry"
-            while True:
-                e = self.db.get("SELECT * FROM entries WHERE slug = %s", slug)
-                if not e: break
-                slug += "-2"
-            self.db.execute(
-                "INSERT INTO entries (author_id,title,slug,markdown,html,"
-                "published) VALUES (%s,%s,%s,%s,%s,UTC_TIMESTAMP())",
-                self.current_user.id, title, slug, text, html)
-        self.redirect("/entry/" + slug)
+            self.mongo["blog"].post.insert(post)
+
+
