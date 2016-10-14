@@ -1,32 +1,37 @@
 # -*- coding: UTF-8 -*-
 import hashlib
 
+from flask_mako import render_template
+
 from .. import app, db, login_manager
 from ..models import User
-from flask import request, redirect, render_template, jsonify, Blueprint
-from flask.ext.login import login_user, login_required, current_user, logout_user
+from flask import request, redirect, jsonify, Blueprint
+from flask_login import login_user, login_required, current_user, logout_user
 
 __author__ = 'youpengfei'
 
 mod = Blueprint('user', __name__)
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-        user = User.query.filter_by(email=email).one()
-        if user is not None and user.verify_password(password):
-            login_user(user)
-            return redirect('/')
+@app.route('/login', methods=['GET'])
+def login_page():
+    name = "尤鹏飞"
+    return render_template('login.html', name=name)
 
-    return render_template('walle/login.html')
+
+@app.route('/login', methods=['POST'])
+def login():
+    email = request.form['email']
+    password = request.form['password']
+    user = User.query.filter_by(email=email).one()
+    if user is not None and user.verify_password(password):
+        login_user(user)
+        return redirect('/')
 
 
 @mod.route('/user/list', methods=['GET', 'POST'])
 def user_list():
-    return render_template('walle/user_list.html')
+    return render_template('user_list.html')
 
 
 @app.route('/password/change', methods=['GET', 'POST'])
@@ -47,7 +52,7 @@ def password_change():
 @app.route('/registers', methods=['GET', 'POST'])
 def user_register():
     if request.method == 'GET':
-        return render_template("walle/register.html")
+        return render_template("register.html")
     elif request.method == 'POST':
         password = request.form['password']
         user = User.query.get(current_user.id)
