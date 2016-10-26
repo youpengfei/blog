@@ -1,12 +1,12 @@
 from flask import Blueprint
 from flask_mako import render_template
-from .. import app
+
+from blog.models import Post
 
 mod = Blueprint('post', __name__)
 
 
 @mod.route("/<id>")
 def get(id):
-    app.logger.warning(id)
-
-    return render_template('post.html', biaoti='标题')
+    post = Post.query.filter(Post.id.__eq__(id)).one()
+    return render_template('post.html', post=post)

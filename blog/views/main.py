@@ -1,6 +1,7 @@
 from flask import Blueprint
 from flask_mako import render_template
 
+from blog.models import Post
 from .. import app
 
 mod = Blueprint('main', __name__)
@@ -8,7 +9,8 @@ mod = Blueprint('main', __name__)
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    posts = Post.query.all()
+    return render_template('index.html', posts=posts)
 
 
 @app.route("/about")

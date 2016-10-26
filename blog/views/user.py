@@ -15,8 +15,7 @@ mod = Blueprint('user', __name__)
 
 @app.route('/login', methods=['GET'])
 def login_page():
-    name = "尤鹏飞"
-    return render_template('login.html', name=name)
+    return render_template('login.html')
 
 
 @app.route('/login', methods=['POST'])
@@ -27,6 +26,8 @@ def login():
     if user is not None and user.verify_password(password):
         login_user(user)
         return redirect('/')
+    else:
+        return redirect('/', code=403)
 
 
 @mod.route('/user/list', methods=['GET', 'POST'])

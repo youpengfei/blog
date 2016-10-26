@@ -18,9 +18,9 @@ login_manager.init_app(app)
 app.template_folder = "templates"
 MakoTemplates(app)
 
-from .views import user, main, post
-
+from .views import user, main, post, admin
 
 app.register_blueprint(main.mod)
 app.register_blueprint(user.mod)
 app.register_blueprint(post.mod, url_prefix='/post')
+app.register_blueprint(admin.mod, url_prefix='/admin')

@@ -1,0 +1,21 @@
+<link href="${url_for('static',filename='vendor/sme/simplemde.min.css')}" type="text/css" rel="stylesheet"/>
+<link href="${url_for('static',filename='vendor/bootstrap/css/bootstrap.min.css')}" rel="stylesheet">
+
+<div style="color: gray;">
+    <div>
+        <form class="form-group" style="margin: 50px 50px 50px 50px;">
+            <input name="title" class="form-control" placeholder="标题" style="margin-bottom: 10px;">
+            <textarea id="MyID" style="padding-bottom: 10px;"></textarea>
+            <input name="tags" class="form-control" style="margin-bottom: 10px;">
+            <button type="button" class="btn btn-primary btn-sm" style="margin-bottom: 10px;float: right;">提交</button>
+        </form>
+
+    </div>
+</div>
+
+<script src="${url_for('static',filename='vendor/sme/simplemde.min.js')}"></script>
+
+
+<script type="application/javascript">
+    var simplemde = new SimpleMDE({element: document.getElementById("MyID")});
+</script>

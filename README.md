@@ -9,9 +9,9 @@
  ```
 
  ```shell
-    pip install -r requirement.txt && source blog_env/bin/active
+    blog_env/bin/pip install -r requirement.txt
  ```
 
  ```shell
-    python app.py
+    blog_env/bin/python app.py
  ```
