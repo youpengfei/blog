@@ -18,6 +18,12 @@ def login_page():
     return render_template('login.html')
 
 
+@app.route('/current_user', methods=['GET'])
+@login_required
+def get_current_user():
+    return  jsonify({"user":current_user.name})
+
+
 @app.route('/login', methods=['POST'])
 def login():
     email = request.form['email']

@@ -4,3 +4,5 @@ blog_env/
 __pycache__/
 blog/__pycache__/
 blog/views/__pycache__/
+**/*.pyc
+**/node_modules/
