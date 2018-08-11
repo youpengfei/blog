@@ -18,3 +18,4 @@ six==1.10.0
 SQLAlchemy==1.1.1
 Werkzeug==0.11.11
 WTForms==2.1
+qiniu==7.2.2
