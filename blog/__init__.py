@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_login import LoginManager
-from flask_mako import MakoTemplates
 from flask_sqlalchemy import SQLAlchemy
 
 __author__ = 'youpengfei'
@@ -17,9 +16,8 @@ login_manager.login_view = 'login'
 login_manager.init_app(app)
 
 # flask mako_template
-app.template_folder = "templates"
-MakoTemplates(app)
-
+# app.template_folder = "templates"
+# MakoTemplates(app)
 
 
 from .views import user, main, post, admin

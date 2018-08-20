@@ -4,7 +4,10 @@ from flask_mako import render_template
 from blog.models import Post
 from .. import app
 
-mod = Blueprint('main', __name__)
+mod = Blueprint('main', __name__,
+                static_folder='./static',
+                template_folder='./templates'
+                )
 
 
 @app.route("/")
