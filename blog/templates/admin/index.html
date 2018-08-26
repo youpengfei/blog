@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>iView Editor</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/iview/2.14.0/styles/iview.css">
+    <script src="https://cdn.staticfile.org/vue/2.5.17/vue.min.js"></script>
+    <script type="text/javascript" src="https://cdn.staticfile.org/iview/3.0.1/iview.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <row>
+            <i-col span="8">
+                <i-menu :theme="theme2">
+                    <submenu name="1">
+                        <template slot="title">
+                            <icon type="ios-paper"></icon> 内容管理
+                        </template>
+                        <menu-item name="1-1">文章管理</menu-item>
+                        <menu-item name="1-2">评论管理</menu-item>
+                        <menu-item name="1-3">举报管理</menu-item>
+                    </submenu>
+                    <submenu name="2">
+                        <template slot="title">
+                            <icon type="ios-people"></icon> 用户管理
+                        </template>
+                        <menu-item name="2-1">新增用户</menu-item>
+                        <menu-item name="2-2">活跃用户</menu-item>
+                    </submenu>
+                    <submenu name="3">
+                        <template slot="title">
+                            <icon type="ios-man"></icon>统计分析
+                        </template>
+                        <menu-group title="使用">
+                            <menu-item name="3-1">新增和启动</menu-item>
+                            <menu-item name="3-2">活跃分析</menu-item>
+                            <menu-item name="3-3">时段分析</menu-item>
+                        </menu-group>
+                        <menu-group title="留存">
+                            <menu-item name="3-4">用户留存</menu-item>
+                            <menu-item name="3-5">流失用户</menu-item>
+                        </menu-group>
+                    </submenu>
+                </i-menu>
+            </i-col>
+            <i-col span="16">
+
+            </i-col>
+        </row>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                theme2: 'dark'
+            }
+        })
+    </script>
+</body>
+
+</html>

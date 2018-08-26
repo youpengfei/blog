@@ -1,21 +1,29 @@
-<link href="${url_for('static',filename='vendor/sme/simplemde.min.css')}" type="text/css" rel="stylesheet"/>
-<link href="${url_for('static',filename='vendor/bootstrap/css/bootstrap.min.css')}" rel="stylesheet">
+<!DOCTYPE html>
+<html>
 
-<div style="color: gray;">
-    <div>
-        <form class="form-group" style="margin: 50px 50px 50px 50px;">
-            <input name="title" class="form-control" placeholder="标题" style="margin-bottom: 10px;">
-            <textarea id="MyID" style="padding-bottom: 10px;"></textarea>
-            <input name="tags" class="form-control" style="margin-bottom: 10px;">
-            <button type="button" class="btn btn-primary btn-sm" style="margin-bottom: 10px;float: right;">提交</button>
-        </form>
+<head>
+    <meta charset="utf-8">
+    <title>iView Editor</title>
+    <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
+    <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview-editor/dist/iview-editor.css">
+    <script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
+    <script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
+    <script type="text/javascript" src="http://unpkg.com/iview-editor/dist/iview-editor.js"></script>
+</head>
 
+<body>
+    <div id="app">
+
+        <i-editor v-model="content"></i-editor>
     </div>
-</div>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                content: ''
+            }
+        })
+    </script>
+</body>
 
-<script src="${url_for('static',filename='vendor/sme/simplemde.min.js')}"></script>
-
-
-<script type="application/javascript">
-    var simplemde = new SimpleMDE({element: document.getElementById("MyID")});
-</script>
+</html>
