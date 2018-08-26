@@ -1,12 +1,12 @@
 from flask import Blueprint
 from flask_login import login_required
-from flask_mako import render_template
+from flask import render_template, _request_ctx_stack
 
 from blog.models import Post
 
 mod = Blueprint('admin', __name__,
-                static_folder='./frontend/dist/static',
-                template_folder='./frontend/dist')
+                static_folder='./frontend/dist',
+                template_folder='./frontend')
 
 
 @mod.route("/", methods=['GET'])
