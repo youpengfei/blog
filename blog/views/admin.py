@@ -1,15 +1,11 @@
 from flask import Blueprint
 from flask_login import login_required
-from flask import render_template, _request_ctx_stack
-
 from blog.models import Post
 
-mod = Blueprint('admin', __name__,
-                static_folder='./frontend/dist',
-                template_folder='./frontend')
+mod = Blueprint('admin', __name__)
 
 
 @mod.route("/", methods=['GET'])
-# @login_required
+@login_required
 def post_edit():
-    return render_template('index.html')
+    return render_template('admin/index.html')

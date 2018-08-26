@@ -4,9 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 __author__ = 'youpengfei'
 
-app = Flask(__name__,
-            static_folder="./frontend/dist",
-            template_folder="./frontend/")
+app = Flask(__name__)
 app.config.from_object('config')
 
 db = SQLAlchemy(app)
